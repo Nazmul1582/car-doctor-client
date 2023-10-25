@@ -1,4 +1,15 @@
+import { useEffect, useState } from "react";
+
 const Services = () => {
+    const [services, setServices] = useState([]);
+    useEffect(() => {
+        fetch('services.json')
+        .then(res => res.json())
+        .then(data => setServices(data))
+        .catch(err => console.log(err.message))
+    }, [])
+    console.log(services);
+
     return (
         <section className="py-20">
             <div className="text-center">
