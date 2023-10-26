@@ -1,3 +1,5 @@
+import {BsArrowRight} from 'react-icons/bs'
+
 const ServiceCard = ({ service }) => {
     const { img, title, price } = service;
     return (
@@ -7,7 +9,7 @@ const ServiceCard = ({ service }) => {
                 <h2 className="card-title">{title}</h2>
                 <div className="flex justify-between items-center text-red-500 font-semibold">
                     <p>Price: $ {price}</p>
-                    <button className="btn btn-error">&gt;</button>
+                    <button className="btn btn-sm btn-ghost"><BsArrowRight className='text-xl font-bold text-red-500' /></button>
                 </div>
             </div>
         </div>
