@@ -4,18 +4,37 @@ import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
 
 const Checkout = () => {
-    const {state: price} = useLocation()
-    const {user} = useContext(AuthContext)
+  const { state } = useLocation();
+  const { img, title, price } = state;
+  const { user } = useContext(AuthContext);
 
-    const handleBooking = event => {
-        event.preventDefault();
-        const form = event.target;
-        const name = form.name.value;
-        const email = form.email.value;
-        const date = form.date.value;
-        const amount = form.amount.value;
-        console.log(name, email, date, amount);
-    }
+  const handleBooking = (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const name = form.name.value;
+    const email = form.email.value;
+    const date = form.date.value;
+    const amount = form.amount.value;
+    const order = {
+      customerName: name,
+      email,
+      date,
+      amount,
+      img,
+      service: title,
+      price,
+    };
+    fetch("http://localhost:5000/bookings", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(order),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.log(error));
+  };
 
   return (
     <section>
@@ -27,14 +46,17 @@ const Checkout = () => {
               <div className="form-control w-full mb-5">
                 <input
                   type="text"
-                  placeholder="Your Name" name="name"
+                  placeholder="Your Name"
+                  name="name"
                   className="input input-bordered"
                   required
                 />
               </div>
               <div className="form-control w-full mb-5">
                 <input
-                  type="email" name="email" defaultValue={user.email}
+                  type="email"
+                  name="email"
+                  defaultValue={user.email}
                   placeholder="Your Email"
                   className="input input-bordered"
                   required
@@ -44,7 +66,8 @@ const Checkout = () => {
             <div className="flex flex-col md:flex-row gap-6">
               <div className="form-control w-full mb-5">
                 <input
-                  type="date" name="date"
+                  type="date"
+                  name="date"
                   placeholder="Your Phone"
                   className="input input-bordered"
                   required
@@ -52,7 +75,8 @@ const Checkout = () => {
               </div>
               <div className="form-control w-full mb-5">
                 <input
-                  type="text" name="amount"
+                  type="text"
+                  name="amount"
                   placeholder="Due Amount"
                   defaultValue={`$ ${price}`}
                   className="input input-bordered"
