@@ -1,10 +1,10 @@
-import { useLoaderData } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
 import image from '../../assets/images/checkout/checkout.png'
 import Facility from './Facility';
 
 const ServiceDetails = () => {
     const service = useLoaderData()
-    const {img, title, description, facility, price} = service
+    const { _id, img, title, description, facility, price} = service
 
     return (
         <section>
@@ -32,7 +32,7 @@ const ServiceDetails = () => {
                 <div className="">
                     <div>
                         <h3 className='text-4xl font-bold mb-5'>Price ${price}</h3>
-                        <button className="btn btn-error w-full">Proceed Checkout</button>
+                        <Link to={`/checkout/${_id}`}><button className="btn btn-error w-full">Proceed Checkout</button></Link>
                     </div>
                 </div>
             </div>
