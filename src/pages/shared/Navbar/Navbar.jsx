@@ -8,11 +8,11 @@ const Navbar = () => {
 
     const navLinks = <>
         <li><Link to="/">Home</Link></li>
-        <li><Link to="/about">About</Link></li>
-        <li><Link to="/blog">Blog</Link></li>
-        <li><Link to="/contact">Contact</Link></li>
         {
-            user ? <li><Link onClick={logout} to="/login">Logout</Link></li> : <li><Link  to="/login">Login</Link></li>
+            user ? <>
+            <li><Link to="/cart-details">Cart Details</Link></li>
+            <li><Link onClick={logout} to="/login">Logout</Link></li>
+            </> : <li><Link  to="/login">Login</Link></li>
         }
         
     </>
