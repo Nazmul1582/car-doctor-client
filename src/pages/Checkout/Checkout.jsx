@@ -32,7 +32,11 @@ const Checkout = () => {
       body: JSON.stringify(order),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data))
+      .then((data) => {
+        if(data.insertedId){
+          alert("service book successfully!")
+        }
+      })
       .catch((error) => console.log(error));
   };
 
