@@ -1,7 +1,8 @@
 import {BsArrowRight} from 'react-icons/bs'
+import { Link } from 'react-router-dom';
 
 const ServiceCard = ({ service }) => {
-    const { img, title, price } = service;
+    const { _id, img, title, price } = service;
     return (
         <div className="card w-96 bg-base-100 shadow-xl">
             <figure><img src={img} alt={`image of ${title}`} /></figure>
@@ -9,7 +10,7 @@ const ServiceCard = ({ service }) => {
                 <h2 className="card-title">{title}</h2>
                 <div className="flex justify-between items-center text-red-500 font-semibold">
                     <p>Price: $ {price}</p>
-                    <button className="btn btn-sm btn-ghost"><BsArrowRight className='text-xl font-bold text-red-500' /></button>
+                    <Link to={`/service-details/${_id}`}><button className="btn btn-sm btn-ghost"><BsArrowRight className='text-xl font-bold text-red-500' /></button></Link>
                 </div>
             </div>
         </div>
