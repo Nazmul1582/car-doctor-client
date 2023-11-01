@@ -32,7 +32,8 @@ const router = createBrowserRouter([
         },
         {
           path: "checkout/:id",
-          element: <PrivateRoute><Checkout /></PrivateRoute>
+          element: <PrivateRoute><Checkout /></PrivateRoute>,
+          loader: ({params}) => fetch(`http://localhost:5000/services/checkout/${params.id}`)
         },
         {
           path: "cart-details",

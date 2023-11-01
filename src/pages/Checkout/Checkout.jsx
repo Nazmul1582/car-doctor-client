@@ -1,11 +1,11 @@
-import { useLocation } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import Hero from "../shared/Hero/Hero";
 import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
 
 const Checkout = () => {
-  const { state } = useLocation();
-  const { img, title, price } = state;
+  const service = useLoaderData();
+  const { img, title, price } = service;
   const { user } = useContext(AuthContext);
 
   const handleBooking = (event) => {
@@ -45,6 +45,7 @@ const Checkout = () => {
       <Hero title="Check Out" route="Home/Checkout" />
       <div className="my-20 p-10 lg:p-20 bg-base-200 rounded-xl">
         <div className="card">
+          <h3 className="text-3xl font-bold text-center">Service Name: {title}</h3>
           <form onSubmit={handleBooking} className="card-body">
             <div className="flex flex-col md:flex-row gap-6">
               <div className="form-control w-full mb-5">
