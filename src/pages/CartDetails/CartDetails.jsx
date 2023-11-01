@@ -14,7 +14,27 @@ const CartDetails = () => {
         setBooking(data);
       });
   }, [url]);
-  console.log(booking);
+
+  const handleDelete = (id) => {
+    const proceed = confirm('Are you want to delete?')
+    if(proceed){
+      fetch(`http://localhost:5000/bookings/${id}`, {
+        method: "DELETE"
+      })
+      .then(res => res.json())
+      .then(data => {
+        if(data.deletedCount > 0){
+          alert("delete succussfully!")
+
+          // removed from client side
+          const remaining = booking.filter(service => service._id !== id)
+          setBooking(remaining)
+        }
+      })
+      .catch(error => console.log(error.message))
+    }
+  }
+
   return (
     <section>
       <Hero title="Cart Details" route="Home/Cart Details" />
@@ -25,7 +45,7 @@ const CartDetails = () => {
               {booking.map((service) => (
                 <tr key={service._id}>
                   <th>
-                    <button className="btn btn-circle">
+                    <button onClick={() => handleDelete(service._id)} className="btn btn-circle btn-neutral">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-6 w-6"
