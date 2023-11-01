@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
 import Hero from "../shared/Hero/Hero";
+import axios from "axios";
 
 const CartDetails = () => {
   const [booking, setBooking] = useState([]);
@@ -8,11 +9,11 @@ const CartDetails = () => {
   const url = `http://localhost:5000/bookings?email=${user.email}`;
 
   useEffect(() => {
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => {
-        setBooking(data);
-      });
+    axios.get(url, {withCredentials: true})
+    .then(res => {
+      setBooking(res.data)
+    })
+    .catch(error => console.log(error.message))
   }, [url]);
 
   const handleDelete = (id) => {
