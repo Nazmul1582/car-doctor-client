@@ -16,24 +16,50 @@ const CartDetails = () => {
   }, [url]);
 
   const handleDelete = (id) => {
-    const proceed = confirm('Are you want to delete?')
-    if(proceed){
+    const proceed = confirm("Are you want to delete?");
+    if (proceed) {
       fetch(`http://localhost:5000/bookings/${id}`, {
-        method: "DELETE"
+        method: "DELETE",
       })
-      .then(res => res.json())
-      .then(data => {
-        if(data.deletedCount > 0){
-          alert("delete succussfully!")
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.deletedCount > 0) {
+            alert("delete succussfully!");
 
-          // removed from client side
-          const remaining = booking.filter(service => service._id !== id)
-          setBooking(remaining)
-        }
-      })
-      .catch(error => console.log(error.message))
+            // removed from client side
+            const remaining = booking.filter((service) => service._id !== id);
+            setBooking(remaining);
+          }
+        })
+        .catch((error) => console.log(error.message));
     }
-  }
+  };
+
+  // handle update
+  const handleBookingUpdate = (id) => {
+    const proceed = confirm("Are you want to approved?");
+    if (proceed) {
+      fetch(`http://localhost:5000/bookings/${id}`, {
+        method: "PATCH",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ status: "approved" }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.modifiedCount > 0) {
+            alert("Booking updated successfully!");
+            const remaining = booking.filter((service) => service._id !== id);
+            const updated = booking.find((service) => service._id === id);
+            updated.status = "approved"
+            const newBooking = [updated, ...remaining]
+            setBooking(newBooking)
+          }
+        })
+        .catch((error) => console.log(error.message));
+    }
+  };
 
   return (
     <section>
@@ -45,7 +71,10 @@ const CartDetails = () => {
               {booking.map((service) => (
                 <tr key={service._id}>
                   <th>
-                    <button onClick={() => handleDelete(service._id)} className="btn btn-circle btn-neutral">
+                    <button
+                      onClick={() => handleDelete(service._id)}
+                      className="btn btn-circle btn-neutral"
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-6 w-6"
@@ -80,7 +109,13 @@ const CartDetails = () => {
                   <td>${service.price}</td>
                   <td>{service.date}</td>
                   <th>
-                    <button className="btn btn-error">Pending</button>
+                    {service.status === "approved" ? (
+                      <button className="btn btn-success btn-outline">Approved</button>
+                    ) : (
+                      <button
+                        onClick={() => handleBookingUpdate(service._id)}
+                        className="btn btn-error">Pending</button>
+                    )}
                   </th>
                 </tr>
               ))}
