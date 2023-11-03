@@ -1,10 +1,9 @@
 import { Link } from 'react-router-dom';
 import logo from '../../../assets/logo.svg'
-import { useContext } from 'react';
-import { AuthContext } from '../../../Provider/AuthProvider';
+import useAuth from '../../../hooks/useAuth';
 
 const Navbar = () => {
-    const {user, logout} = useContext(AuthContext);
+    const {user, logout} = useAuth();
 
     const navLinks = <>
         <li><Link to="/">Home</Link></li>

@@ -1,11 +1,11 @@
-import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../Provider/AuthProvider";
+import { useEffect, useState } from "react";
 import Hero from "../shared/Hero/Hero";
 import axios from "axios";
+import useAuth from "../../hooks/useAuth";
 
 const CartDetails = () => {
   const [booking, setBooking] = useState([]);
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
   const url = `http://localhost:5000/bookings?email=${user.email}`;
 
   useEffect(() => {

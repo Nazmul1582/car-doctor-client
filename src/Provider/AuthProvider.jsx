@@ -34,7 +34,7 @@ const AuthProvider = ({children}) => {
         return () =>{
             return unsubscribe();
         }
-    }, [])
+    }, [user])
 
     const createUser = (email, password) => {
         setLoading(true);

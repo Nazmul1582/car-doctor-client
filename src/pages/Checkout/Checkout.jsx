@@ -1,12 +1,11 @@
 import { useLoaderData } from "react-router-dom";
 import Hero from "../shared/Hero/Hero";
-import { useContext } from "react";
-import { AuthContext } from "../../Provider/AuthProvider";
+import useAuth from "../../hooks/useAuth";
 
 const Checkout = () => {
   const service = useLoaderData();
   const { img, title, price } = service;
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
 
   const handleBooking = (event) => {
     event.preventDefault();
