@@ -1,31 +1,28 @@
 import { useEffect, useState } from "react";
 import Hero from "../shared/Hero/Hero";
-import axios from "axios";
 import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const CartDetails = () => {
   const [booking, setBooking] = useState([]);
   const { user } = useAuth();
-  const url = `http://localhost:5000/bookings?email=${user.email}`;
+  const axiosSecure = useAxiosSecure()
 
   useEffect(() => {
-    axios.get(url, {withCredentials: true})
+    axiosSecure.get(`/bookings?email=${user.email}`)
     .then(res => {
       setBooking(res.data)
     })
     .catch(error => console.log(error.message))
-  }, [url]);
+  }, [axiosSecure, user]);
 
   const handleDelete = (id) => {
     const proceed = confirm("Are you want to delete?");
     if (proceed) {
-      fetch(`http://localhost:5000/bookings/${id}`, {
-        method: "DELETE",
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.deletedCount > 0) {
-            alert("delete succussfully!");
+      axiosSecure.delete(`/bookings/${id}`)
+        .then((res) => {
+          if (res.data.deletedCount > 0) {
+            alert("deleted succussfully!");
 
             // removed from client side
             const remaining = booking.filter((service) => service._id !== id);
@@ -40,16 +37,9 @@ const CartDetails = () => {
   const handleBookingUpdate = (id) => {
     const proceed = confirm("Are you want to approved?");
     if (proceed) {
-      fetch(`http://localhost:5000/bookings/${id}`, {
-        method: "PATCH",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({ status: "approved" }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.modifiedCount > 0) {
+      axiosSecure.patch(`/bookings/${id}`, { status: "approved" })
+        .then((res) => {
+          if (res.data.modifiedCount > 0) {
             alert("Booking updated successfully!");
             const remaining = booking.filter((service) => service._id !== id);
             const updated = booking.find((service) => service._id === id);

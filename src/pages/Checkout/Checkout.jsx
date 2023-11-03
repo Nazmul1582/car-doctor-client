@@ -1,11 +1,13 @@
 import { useLoaderData } from "react-router-dom";
 import Hero from "../shared/Hero/Hero";
 import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const Checkout = () => {
   const service = useLoaderData();
   const { img, title, price } = service;
   const { user } = useAuth();
+  const axiosSecure = useAxiosSecure()
 
   const handleBooking = (event) => {
     event.preventDefault();
@@ -23,16 +25,9 @@ const Checkout = () => {
       service: title,
       price,
     };
-    fetch("http://localhost:5000/bookings", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(order),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if(data.insertedId){
+      axiosSecure.post(`/bookings`, order)
+      .then((res) => {
+        if(res.data.insertedId){
           alert("service book successfully!")
         }
       })

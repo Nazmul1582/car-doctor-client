@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import ServiceCard from "./ServiceCard";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const Services = () => {
     const [services, setServices] = useState([]);
+    const axiosSecure = useAxiosSecure()
     useEffect(() => {
-        fetch('http://localhost:5000/services')
-            .then(res => res.json())
-            .then(data => setServices(data))
-            .catch(err => console.log(err.message))
-    }, [])
+        axiosSecure.get('/services')
+        .then(res => setServices(res.data))
+        .catch(error => console.log(error.message))
+    }, [axiosSecure])
 
     return (
         <section className="py-20">
